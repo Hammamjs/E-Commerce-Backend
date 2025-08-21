@@ -7,7 +7,6 @@ import cartRoute from './cart.js';
 import reviewRoute from './review.js';
 import wishlistRoute from './wishlist.js';
 import favoriteRoute from './favorite.js';
-import addressRoute from './address.js';
 import ordersRoute from './order.js';
 import AppError from '../utils/AppError.js';
 import { apiLimiter } from '../middleware/limiter.js';
@@ -21,7 +20,6 @@ const mountRoutes = (app) => {
   app.use('/api/v1/favorites', favoriteRoute);
   app.use('/api/v1/wishlist', wishlistRoute);
   app.use('/api/v1/categories', categoryRoute);
-  app.use('/api/v1/addresses', addressRoute);
   app.use('/api/v1/products', productRoute);
   app.use('/api/v1/reviews', reviewRoute);
 

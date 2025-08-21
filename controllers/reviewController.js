@@ -1,10 +1,4 @@
-import {
-  createOne,
-  deleteOne,
-  getAll,
-  getOne,
-  updateOne,
-} from './FactoryHandler.js';
+import { deleteOne, getAll, getOne, updateOne } from './FactoryHandler.js';
 import Review from '../model/Review.js';
 import AsyncHandler from 'express-async-handler';
 import AppError from '../utils/AppError.js';

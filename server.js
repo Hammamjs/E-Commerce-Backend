@@ -11,7 +11,6 @@ import applyMiddelwares from './middleware/applyMiddlewares.js';
 import appListeners from './utils/appListeners.js';
 
 import { initSocket } from './utils/socket.js';
-import { log } from './utils/logSatuts.js';
 // dotenv
 dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
@@ -19,7 +18,6 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 // const PORT = process.env.NODE_ENV || 3500;
 const CPU_COUNT = os.cpus().length || 1;
 const isProduction = process.env.NODE_ENV === 'production';
-const { error, info } = log;
 
 if (isProduction && cluster.isPrimary) {
   console.log(`Master ${process.pid} is running`);
@@ -51,7 +49,7 @@ if (isProduction && cluster.isPrimary) {
 
       appListeners(app);
     } catch (err) {
-      error(`console initialization failed ${err}`);
+      console.error(`console initialization failed ${err}`);
       process.exit(1);
     }
   };

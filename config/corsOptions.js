@@ -1,5 +1,4 @@
 import { allowedOrigins } from './allowedOrigins.js';
-import { log } from '../utils/logSatuts.js';
 import { config } from 'dotenv';
 
 config();
@@ -10,7 +9,7 @@ export const corsOptions = {
     }
 
     if (process.env.NODE_ENV === 'development') {
-      log.warn(`Blocked Origin: ${origin}`);
+      console.warn(`Blocked Origin: ${origin}`);
     }
 
     return callback(new Error('Not allowed by CORS'));
