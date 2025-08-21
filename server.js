@@ -19,7 +19,9 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 const CPU_COUNT = os.cpus().length || 1;
 const isProduction = process.env.NODE_ENV === 'production';
 
-if (isProduction && cluster.isPrimary) {
+const useCluster = isProduction && cluster.isPrimary && !process.env.RENDER;
+
+if (useCluster) {
   console.log(`Master ${process.pid} is running`);
   for (let i = 0; i < CPU_COUNT; i++) {
     cluster.fork();
