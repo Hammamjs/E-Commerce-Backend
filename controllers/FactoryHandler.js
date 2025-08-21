@@ -2,8 +2,6 @@ import AsyncHandler from 'express-async-handler';
 import AppError from '../utils/AppError.js';
 import AppFeatures from '../utils/AppFeatures.js';
 import { getIo } from '../utils/socket.js';
-import { upladOneImg, uploadManyImgs } from '../utils/uploadImgs.js';
-import { upload } from '../middleware/initMulter.js';
 
 const ERRORS_MESSAGE = {
   NOT_FOUND: (model) => `${model} not found.`,

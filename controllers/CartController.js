@@ -1,4 +1,4 @@
-import { createOne, deleteOne, getAll, getOne } from './FactoryHandler.js';
+import { getAll } from './FactoryHandler.js';
 import Cart from '../model/Cart.js';
 import AsyncHandler from 'express-async-handler';
 import { User } from '../model/User.js';
