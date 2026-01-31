@@ -37,8 +37,9 @@ router
     verifyJwt,
     allowedTo('ADMIN', 'USER'),
     upload.single('profileImg'),
+    convertTowebp,
     updateUserValidation,
-    updateUser
+    updateUser,
   )
   .delete(verifyJwt, allowedTo('ADMIN'), deleteUserValidation, deleteUser);
 
