@@ -100,7 +100,7 @@ export const createOne = (Model, eventName = 'docCreated') =>
 
 export const updateOne = (
   Model,
-  { eventName = 'docUopdated', excludedFields = ['password', 'role'] } = {}
+  { eventName = 'docUopdated', excludedFields = ['password', 'role'] } = {},
 ) =>
   AsyncHandler(async (req, res, next) => {
     const updateData = { ...req.body };
@@ -108,13 +108,23 @@ export const updateOne = (
     // Remove exclude fileds
     excludedFields.forEach((field) => delete updateData[field]);
 
+    // for multi imgs
+
+    if (req.files) {
+      updateData.images = req.filesWebp;
+    }
+
+    if (req.file) {
+      updateData.image = req.file.webpath;
+    }
+
     const document = await Model.findByIdAndUpdate(
       req.params.id || req.user.id,
       updateData,
       {
         new: true,
         runValidator: true,
-      }
+      },
     );
 
     if (!document) return next(new AppError(404, ERRORS_MESSAGE.INVALID_ID));
@@ -165,7 +175,7 @@ export const updateOrderStatus = (Model, status) =>
     const order = await Model.findOneAndUpdate(
       { _id: orderId },
       { status },
-      { new: true }
+      { new: true },
     );
     res.status(200).json({ message: 'Order status updated', order });
   });
