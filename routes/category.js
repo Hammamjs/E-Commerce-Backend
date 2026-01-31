@@ -13,22 +13,38 @@ import {
 
 import { allowedTo } from '../middleware/allowedTo.js';
 import { verifyJwt } from '../middleware/verifyJwt.js';
+import { upload } from '../middleware/initMulter.js';
+import { convertImagesToWebp } from '../middleware/convertImgsToWebp.js';
 
 const router = Router();
 
 router
   .route('/')
   .get(getCategories)
-  .post(verifyJwt, allowedTo('USER'), createCategoryValidation, createCategory);
+  .post(
+    verifyJwt,
+    allowedTo('USER'),
+    createCategoryValidation,
+    upload.fields([{ name: 'image', maxCount: 1 }]),
+    convertImagesToWebp,
+    createCategory,
+  );
 
 router
   .route('/:id')
-  .put(verifyJwt, allowedTo('USER'), updateCategoryValidation, updateCategory)
+  .put(
+    verifyJwt,
+    allowedTo('USER'),
+    updateCategoryValidation,
+    upload.fields([{ name: 'image', maxCount: 1 }]),
+    convertImagesToWebp,
+    updateCategory,
+  )
   .delete(
     verifyJwt,
     allowedTo('USER'),
     deleteCategoryValidation,
-    deleteCategory
+    deleteCategory,
   );
 
 export default router;
