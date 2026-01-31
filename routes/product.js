@@ -16,8 +16,7 @@ import { createFilterObj } from '../controllers/FactoryHandler.js';
 import { upload } from '../middleware/initMulter.js';
 import { verifyJwt } from '../middleware/verifyJwt.js';
 import ReviewRoute from './review.js';
-import { convertTowebp } from '../middleware/sharp.js';
-import { convertToWebpMulti } from '../middleware/sharpMultiImgs.js';
+import { convertImagesToWebp } from '../middleware/convertImgsToWebp.js';
 
 const router = Router({ mergeParams: true });
 
@@ -32,6 +31,11 @@ router
     allowedTo('ADMIN'),
     createFilterObj,
     createProductValidation,
+    upload.fields([
+      { name: 'image', maxCount: 1 },
+      { name: 'images', maxCount: 10 },
+    ]),
+    convertImagesToWebp({ single: 'image', multiple: 'images' }),
     createProduct,
   );
 
@@ -41,8 +45,8 @@ router
   .put(
     verifyJwt,
     allowedTo('ADMIN'),
-    upload.array('imgs', 10),
-    convertToWebpMulti,
+    upload.fields([{ name: 'images', maxCount: 10 }]),
+    convertImagesToWebp({ multiple: 'images' }),
     updateProductValidation,
     updateProduct,
   )

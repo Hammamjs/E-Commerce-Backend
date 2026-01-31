@@ -86,6 +86,7 @@ export const createOne = (Model, eventName = 'docCreated') =>
   AsyncHandler(async (req, res, next) => {
     // upload Many Images
     const modelName = Model.modelName;
+
     const document = await Model.create(req.body);
 
     if (!document)
@@ -107,16 +108,6 @@ export const updateOne = (
 
     // Remove exclude fileds
     excludedFields.forEach((field) => delete updateData[field]);
-
-    // for multi imgs
-
-    if (req.files) {
-      updateData.images = req.filesWebp;
-    }
-
-    if (req.file) {
-      updateData.image = req.file.webpath;
-    }
 
     const document = await Model.findByIdAndUpdate(
       req.params.id || req.user.id,
