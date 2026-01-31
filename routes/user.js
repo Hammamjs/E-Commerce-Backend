@@ -19,7 +19,6 @@ import ReviewsRoute from '../routes/review.js';
 import favoritesRoute from '../routes/favorite.js';
 import { upload } from '../middleware/initMulter.js';
 import { convertImagesToWebp } from '../middleware/convertImgsToWebp.js';
-// import OrdersRoute from '../routes/favorite.js';
 
 const router = Router();
 
@@ -37,7 +36,7 @@ router
   .put(
     verifyJwt,
     allowedTo('ADMIN', 'USER'),
-    upload.single('profileImg'),
+    upload.fields([{ name: 'profileImg', maxCount: 1 }]),
     convertImagesToWebp({ single: 'profileImg' }),
     updateUserValidation,
     updateUser,
