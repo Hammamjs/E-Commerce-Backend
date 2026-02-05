@@ -14,9 +14,27 @@ const router = Router({ mergeParams: true });
 
 router
   .route('/')
-  .get(verifyJwt, allowedTo('USER', 'ADMIN'), createFilterObj, getFavorites)
-  .post(verifyJwt, allowedTo('USER', 'ADMIN'), addProductToFavorite)
-  .patch(verifyJwt, allowedTo('USER', 'ADMIN'), deleteItemFromFavorites);
-router.get('/user', verifyJwt, allowedTo('USER', 'ADMIN'), getUserFav);
+  .get(
+    verifyJwt,
+    allowedTo(ROLES_LIST.USER, ROLES_LIST.ADMIN),
+    createFilterObj,
+    getFavorites,
+  )
+  .post(
+    verifyJwt,
+    allowedTo(ROLES_LIST.USER, ROLES_LIST.ADMIN),
+    addProductToFavorite,
+  )
+  .patch(
+    verifyJwt,
+    allowedTo(ROLES_LIST.USER, ROLES_LIST.ADMIN),
+    deleteItemFromFavorites,
+  );
+router.get(
+  '/user',
+  verifyJwt,
+  allowedTo(ROLES_LIST.USER, ROLES_LIST.ADMIN),
+  getUserFav,
+);
 
 export default router;
