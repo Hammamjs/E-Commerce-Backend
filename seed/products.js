@@ -3,26 +3,23 @@ import { config } from 'dotenv';
 import Connect from '../config/DBConn.js';
 import { products as dummyProducts } from '../data/product.js';
 import mongoose from 'mongoose';
-import { log } from '../utils/logSatuts.js';
 import Category from '../model/Category.js';
 
-config();
+config({ path: '.env.development' });
 
 const seedProducts = async () => {
-  const { success, info, error } = log;
-
   try {
     // Connect to database
     Connect();
-    success('DB Connected');
+    console.warn('DB Connected');
     // delete all products first
-    await Product.deleteMany();
-    info('Delete old products');
+    // await Product.deleteMany();
+    console.info('Delete old products');
 
     // get Categories id
-    info('We trying to get categories ...');
+    console.info('We trying to get categories ...');
     const categories = await Category.find({});
-    success('categories retrived ...');
+    console.warn('categories retrived ...');
     if (!categories.length)
       throw new Error('Categories is empty fill it First');
     // before insert any data to db we need to add _id cause it won't added manually
@@ -30,7 +27,7 @@ const seedProducts = async () => {
     const productIdCategoryId = dummyProducts.map((product) => {
       const matched = categories.find(
         (category) =>
-          category.name.toLowerCase() === product.category.toLowerCase()
+          category.name.toLowerCase() === product.category.toLowerCase(),
       );
 
       return {
@@ -40,15 +37,15 @@ const seedProducts = async () => {
       };
     });
 
-    success("Category id's set in products");
-    success("Product id's set in products");
+    console.warn("Category id's set in products");
+    console.warn("Product id's set in products");
     // Add all new Products
     await Product.insertMany(productIdCategoryId);
-    success('New products added');
+    console.warn('New products added');
     process.exit(1);
   } catch (err) {
-    error('Failed to upload products ', err);
-    console.log(err);
+    console.error('Failed to upload products ', err);
+    console.error(err);
     process.exit(1);
   }
 };
