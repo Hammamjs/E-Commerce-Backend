@@ -36,7 +36,7 @@ router
   .put(
     verifyJwt,
     allowedTo('ADMIN', 'USER'),
-    upload.single('profileImg'),
+    upload.fields([{ name: 'profileImg', maxCount: 1 }]),
     convertImagesToWebp({ single: 'profileImg' }),
     updateUserValidation,
     updateUser,
