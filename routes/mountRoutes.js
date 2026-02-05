@@ -12,9 +12,8 @@ import AppError from '../utils/AppError.js';
 import { apiLimiter } from '../middleware/limiter.js';
 
 const mountRoutes = (app) => {
-  app.use(apiLimiter);
-  app.use('/api/v1/auth', authRoute);
-  app.use('/api/v1/users', userRoute);
+  app.use('/api/v1/auth', apiLimiter, authRoute);
+  app.use('/api/v1/users', apiLimiter, userRoute);
   app.use('/api/v1/orders', ordersRoute);
   app.use('/api/v1/cart', cartRoute);
   app.use('/api/v1/favorites', favoriteRoute);
